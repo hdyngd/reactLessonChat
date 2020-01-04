@@ -1,39 +1,22 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-// import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
+import { connect } from "react-redux";
+import { addMessage } from "../redux/actions";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column"
-    // minHeight: '100vh',
   },
   button: {
     margin: theme.spacing(1)
   },
-  //   main: {
-  //     marginTop: theme.spacing(8),
-  //     marginBottom: theme.spacing(2),
-  //   },
   footer: {
     padding: theme.spacing(3, 2),
     marginTop: "auto",
@@ -44,22 +27,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function StickyFooter() {
+type Props = {
+  chatId: string;
+  userName: string;
+  addMessage: (chatId: string, userName: string, message: string) => void;
+};
+
+const StickyFooter = (props: Props) => {
   const classes = useStyles();
+
+  const [input, setInput] = React.useState("");
+
+  const updateInput = (input: string) => {
+    setInput(input);
+  };
+
+  const handleAddMessage = () => {
+    props.addMessage(props.chatId, props.userName, input);
+    setInput("");
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      {/* <Container component="main" className={classes.main} maxWidth="sm">
-        <Typography variant="h2" component="h1" gutterBottom>
-          Sticky footer
-        </Typography>
-        <Typography variant="h5" component="h2" gutterBottom>
-          {'Pin a footer to the bottom of the viewport.'}
-          {'The footer will move as the main element of the page grows.'}
-        </Typography>
-        <Typography variant="body1">Sticky footer placeholder.</Typography>
-      </Container> */}
       <footer className={classes.footer}>
         <Container maxWidth="sm">
           <TextField
@@ -69,19 +59,32 @@ export default function StickyFooter() {
             multiline
             variant="filled"
             size="medium"
+            value={input}
+            onChange={e => updateInput(e.target.value)}
           />
           <Button
             variant="contained"
             color="primary"
             className={classes.button}
             endIcon={<Icon>send</Icon>}
+            onClick={() => {
+              handleAddMessage();
+            }}
           >
             Send
           </Button>
-          {/* <Typography variant="body1">My sticky footer can be found here.</Typography> */}
-          {/* <Copyright /> */}
         </Container>
       </footer>
     </div>
   );
-}
+};
+
+const mapStateProps = (state: any) => {
+  return { chatId: state.selectedRoom, userName: state.userName };
+};
+
+const mapDispatchToProps = {
+  addMessage
+};
+
+export default connect(mapStateProps, mapDispatchToProps)(StickyFooter);

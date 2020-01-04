@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// type Props = {
-//   countUp: () => void;
-// };
 type Props = {
   toggleDrawer: () => void;
 };
