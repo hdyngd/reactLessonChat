@@ -72,8 +72,15 @@ const ChangeNameFormDialog = (props: Props) => {
     </div>
   );
 };
-
-const mapStateToProps = (state: any) => {
+type State = {
+  createRoomDialogVisibility: boolean;
+  changeNameDialogVisibility: boolean;
+  userName: string;
+  rooms: { id: string; roomName: string }[];
+  selectedRoom: string;
+  messages: { userName: string; message: string }[];
+};
+const mapStateToProps = (state: State) => {
   return {
     changeNameDialogVisibility: state.changeNameDialogVisibility,
     userName: state.userName
