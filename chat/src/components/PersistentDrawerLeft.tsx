@@ -28,9 +28,12 @@ import { connect } from "react-redux";
 import {
   setChangeNameDialogVisibility,
   setCreateRoomDialogVisibility,
-  setSelectedRoom
+  setSelectedRoom,
+  fetchMessages,
+  fetchRooms,
+  addEventListenerRooms,
+  addEventListenerMessages
 } from "../redux/actions";
-import { getChatHistory } from "../redux/selectors";
 
 const drawerWidth = 240;
 
@@ -96,20 +99,26 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-  userName: String;
+  userName: string;
   setChangeNameDialogVisibility: (visibility: boolean) => void;
   setCreateRoomDialogVisibility: (visibility: boolean) => void;
-  rooms: { id: string; name: string }[];
+  rooms: { id: string; roomName: string }[];
   setSelectedRoom: (id: string) => void;
-  chatHistory: { chatId: string; userName: string; message: string }[];
+  messages: { userName: string; message: string }[];
+  fetchRooms: () => void;
+  addEventListenerRooms: () => void;
+  fetchMessages: (id: string) => void;
+  addEventListenerMessages: (id: string) => void;
 };
 
 const PersistentDrawerLeft = (props: Props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
+    props.fetchRooms();
+    props.addEventListenerRooms();
     setOpen(true);
   };
 
@@ -117,6 +126,11 @@ const PersistentDrawerLeft = (props: Props) => {
     setOpen(false);
   };
 
+  const handleSelectedRoom = (id: string) => {
+    props.setSelectedRoom(id);
+    props.fetchMessages(id);
+    props.addEventListenerMessages(id);
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -182,10 +196,10 @@ const PersistentDrawerLeft = (props: Props) => {
               button
               key={index}
               onClick={() => {
-                props.setSelectedRoom(room.id);
+                handleSelectedRoom(room.id);
               }}
             >
-              <ListItemText primary={room.name} />
+              <ListItemText primary={room.roomName} />
             </ListItem>
           ))}
         </List>
@@ -196,11 +210,11 @@ const PersistentDrawerLeft = (props: Props) => {
         })}
       >
         <div className={classes.drawerHeader} />
-        {props.chatHistory.map((history, index) => (
+        {props.messages.map((message, index) => (
           <OutlineCard
             key={index}
-            userName={history.userName}
-            message={history.message}
+            userName={message.userName}
+            message={message.message}
           ></OutlineCard>
         ))}
       </main>
@@ -208,18 +222,30 @@ const PersistentDrawerLeft = (props: Props) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+type State = {
+  createRoomDialogVisibility: boolean;
+  changeNameDialogVisibility: boolean;
+  userName: string;
+  rooms: { id: string; roomName: string }[];
+  selectedRoom: string;
+  messages: { userName: string; message: string }[];
+};
+const mapStateToProps = (state: State) => {
   return {
     userName: state.userName,
     rooms: state.rooms,
-    chatHistory: getChatHistory(state)
+    messages: state.messages
   };
 };
 
 const mapDispatchToProps = {
   setChangeNameDialogVisibility,
   setCreateRoomDialogVisibility,
-  setSelectedRoom
+  setSelectedRoom,
+  fetchRooms,
+  addEventListenerRooms,
+  fetchMessages,
+  addEventListenerMessages
 };
 
 export default connect(

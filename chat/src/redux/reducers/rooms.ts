@@ -1,18 +1,15 @@
-import { ADD_ROOM } from "../actionTypes";
+import { SET_ROOMS } from "../actionTypes";
 
 const initialState: { id: string; name: string }[] = [];
 
 type Action = {
   type: string;
-  payload: { id: string; roomName: string };
+  payload: { rooms: { id: string; roomName: string }[] };
 };
 const rooms = (state = initialState, action: Action) => {
   switch (action.type) {
-    case ADD_ROOM: {
-      return [
-        ...state,
-        { id: action.payload.id, name: action.payload.roomName }
-      ];
+    case SET_ROOMS: {
+      return action.payload.rooms;
     }
     default: {
       return state;

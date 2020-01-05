@@ -4,7 +4,11 @@ import {
   SET_USER_NAME,
   ADD_ROOM,
   SET_SELECTED_ROOM,
-  ADD_MESSAGE
+  ADD_MESSAGE,
+  FETCH_MESSAGES,
+  FETCH_ROOMS,
+  ADD_EVENT_LISTENER_ROOMS,
+  ADD_EVENT_LISTENER_MESSAGES
 } from "./actionTypes";
 
 export const setCreateRoomDialogVisibility = (visibility: boolean) => ({
@@ -28,7 +32,6 @@ export const setUserName = (userName: string) => ({
 export const addRoom = (roomName: string) => ({
   type: ADD_ROOM,
   payload: {
-    id: getUniqueStr(),
     roomName
   }
 });
@@ -50,15 +53,21 @@ export const addMessage = (
     message
   }
 });
-
-/**
- * chatRoomのuniqueなidを生成するヘルパー関数
- */
-function getUniqueStr(): string {
-  let strong = 1000;
-  return (
-    "chatId_" +
-    new Date().getTime().toString(16) +
-    Math.floor(strong * Math.random()).toString(16)
-  );
-}
+export const fetchMessages = (roomId: string) => ({
+  type: FETCH_MESSAGES,
+  payload: {
+    roomId
+  }
+});
+export const fetchRooms = () => ({
+  type: FETCH_ROOMS
+});
+export const addEventListenerRooms = () => ({
+  type: ADD_EVENT_LISTENER_ROOMS
+});
+export const addEventListenerMessages = (roomId: string) => ({
+  type: ADD_EVENT_LISTENER_MESSAGES,
+  payload: {
+    roomId
+  }
+});

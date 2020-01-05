@@ -64,7 +64,15 @@ const CreateRoomFormDialog = (props: Props) => {
   );
 };
 
-const mapStateProps = (state: any) => {
+type State = {
+  createRoomDialogVisibility: boolean;
+  changeNameDialogVisibility: boolean;
+  userName: string;
+  rooms: { id: string; roomName: string }[];
+  selectedRoom: string;
+  messages: { userName: string; message: string }[];
+};
+const mapStateProps = (state: State) => {
   return { createRoomDialogVisibility: state.createRoomDialogVisibility };
 };
 

@@ -6,6 +6,7 @@ import store from "./redux/store";
 import ChatApp from "./ChatApp";
 
 const rootElement = document.getElementById("root");
+
 ReactDOM.render(
   <Provider store={store}>
     <ChatApp />

@@ -4,7 +4,7 @@ import createRoomDialogVisibility from "./createRoomDialogVisibility";
 import userName from "./userName";
 import rooms from "./rooms";
 import selectedRoom from "./selectedRoom";
-import chatHistory from "./chatHistory";
+import messages from "./messages";
 
 export default combineReducers({
   changeNameDialogVisibility,
@@ -12,5 +12,5 @@ export default combineReducers({
   userName,
   rooms,
   selectedRoom,
-  chatHistory
+  messages
 });
