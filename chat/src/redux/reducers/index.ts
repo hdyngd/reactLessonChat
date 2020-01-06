@@ -6,7 +6,7 @@ import rooms from "./rooms";
 import selectedRoom from "./selectedRoom";
 import messages from "./messages";
 
-export default combineReducers({
+const rootReducer = combineReducers({
   changeNameDialogVisibility,
   createRoomDialogVisibility,
   userName,
@@ -14,3 +14,7 @@ export default combineReducers({
   selectedRoom,
   messages
 });
+
+export type RootState = ReturnType<typeof rootReducer>
+
+export default rootReducer;

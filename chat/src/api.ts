@@ -3,23 +3,18 @@ import db from "./firebaseInit";
 import { eventChannel } from "redux-saga";
 
 export function fetchRooms() {
-  return new Promise(resolve => {
-    db.collection("rooms")
-      .get()
-      .then(querySnapShot => {
-        let rooms: { id: string; roomName: string }[] = [];
-        querySnapShot.forEach(doc => {
-          rooms.push({
-            id: doc.id,
-            roomName: doc.data().name
-          });
+  return db.collection("rooms")
+    .get()
+    .then(querySnapShot => {
+      let rooms: { id: string; roomName: string }[] = [];
+      querySnapShot.forEach(doc => {
+        rooms.push({
+          id: doc.id,
+          roomName: doc.data().name
         });
-        resolve(rooms);
-      })
-      .catch(() => {
-        resolve([]);
       });
-  });
+      return rooms;
+    });
 }
 
 export function addRoom(name: string) {
@@ -80,24 +75,19 @@ export function addEventListenerMessages(roomId: string) {
 }
 
 export function fetchMessages(roomId: string) {
-  return new Promise(resolve => {
-    db.collection("rooms")
-      .doc(roomId)
-      .collection("messages")
-      .get()
-      .then(querySnapShot => {
-        let messages: { userName: string; message: string }[] = [];
-        querySnapShot.forEach(doc => {
-          messages.push({
-            userName: doc.data().userName,
-            message: doc.data().message
-          });
+  return db.collection("rooms")
+    .doc(roomId)
+    .collection("messages")
+    .get()
+    .then(querySnapShot => {
+      let messages: { userName: string; message: string }[] = [];
+      querySnapShot.forEach(doc => {
+        messages.push({
+          userName: doc.data().userName,
+          message: doc.data().message
         });
-
-        resolve(messages);
-      })
-      .catch(() => {
-        return [];
       });
-  });
+
+      return messages;
+    });
 }

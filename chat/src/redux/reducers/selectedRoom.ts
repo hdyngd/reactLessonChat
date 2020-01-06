@@ -1,11 +1,9 @@
 import { SET_SELECTED_ROOM } from "../actionTypes";
+import { setSelectedRoom } from "../actions";
 
 const initialState = "";
 
-type Action = {
-  type: string;
-  payload: { id: string };
-};
+type Action = ReturnType<typeof setSelectedRoom>;
 
 const selectedRoom = (state = initialState, action: Action) => {
   switch (action.type) {

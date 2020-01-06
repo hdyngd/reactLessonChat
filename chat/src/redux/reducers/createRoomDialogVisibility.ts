@@ -1,11 +1,9 @@
 import { SET_CREATE_ROOM_DIALOG_VISIBILITY } from "../actionTypes";
+import { setCreateRoomDialogVisibility } from "../actions";
 
 const initialState = false;
 
-type Action = {
-  type: string;
-  payload: { visibility: boolean };
-};
+type Action = ReturnType<typeof setCreateRoomDialogVisibility>;
 
 const createRoomDialogVisibility = (state = initialState, action: Action) => {
   switch (action.type) {

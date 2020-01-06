@@ -6,7 +6,9 @@ import {
   SET_SELECTED_ROOM,
   ADD_MESSAGE,
   FETCH_MESSAGES,
+  SET_MESSAGES,
   FETCH_ROOMS,
+  SET_ROOMS,
   ADD_EVENT_LISTENER_ROOMS,
   ADD_EVENT_LISTENER_MESSAGES
 } from "./actionTypes";
@@ -59,9 +61,21 @@ export const fetchMessages = (roomId: string) => ({
     roomId
   }
 });
+export const setMessages = (messages: { userName: string; message: string }[]) => ({
+  type: SET_MESSAGES,
+  payload: {
+    messages
+  }
+})
 export const fetchRooms = () => ({
   type: FETCH_ROOMS
 });
+export const setRooms = (rooms: { id: string; roomName: string }[]) => ({
+  type: SET_ROOMS,
+  payload: {
+    rooms
+  }
+})
 export const addEventListenerRooms = () => ({
   type: ADD_EVENT_LISTENER_ROOMS
 });

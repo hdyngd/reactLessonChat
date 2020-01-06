@@ -1,14 +1,29 @@
 import { call, put, takeEvery, take } from "redux-saga/effects";
 import * as api from "../api";
+import {
+  FETCH_MESSAGES,
+  FETCH_ROOMS,
+  ADD_EVENT_LISTENER_ROOMS,
+  ADD_ROOM,
+  ADD_EVENT_LISTENER_MESSAGES,
+  ADD_MESSAGE
+} from "./actionTypes";
+import {
+  fetchMessages as fetchMessagesAction,
+  setMessages,
+  setRooms,
+  addRoom as addRoomAction,
+  addMessage as addMessageAction,
+  addEventListenerMessages as addEventListenerMessagesAction,
+} from "./actions";
 
-type fetchMessagesAction = {
-  type: string;
-  payload: { roomId: string };
-};
-function* fetchMessages(action: fetchMessagesAction) {
+function* fetchMessages(action: ReturnType<typeof fetchMessagesAction>) {
   try {
-    const messages = yield call(api.fetchMessages, action.payload.roomId);
-    yield put({ type: "SET_MESSAGES", payload: { messages: messages } });
+    const messages: {
+      userName: string;
+      message: string;
+    }[] = yield call(api.fetchMessages, action.payload.roomId);
+    yield put(setMessages(messages));
   } catch (e) {
     console.error(e);
   }
@@ -16,8 +31,11 @@ function* fetchMessages(action: fetchMessagesAction) {
 
 function* fetchRooms() {
   try {
-    const rooms = yield call(api.fetchRooms);
-    yield put({ type: "SET_ROOMS", payload: { rooms: rooms } });
+    const rooms: {
+      id: string;
+      roomName: string;
+    }[] = yield call(api.fetchRooms);
+    yield put(setRooms(rooms));
   } catch (e) {
     console.error(e);
   }
@@ -28,29 +46,22 @@ function* addEventListenerRooms() {
   try {
     while (true) {
       const rooms = yield take(channel);
-      yield put({ type: "SET_ROOMS", payload: { rooms: rooms } });
+      yield put(setRooms(rooms));
     }
   } catch (e) {
     console.error(e);
   }
 }
 
-type addRoomAction = {
-  type: string;
-  payload: { roomName: string };
-};
-function* addRoom(action: addRoomAction) {
+function* addRoom(action: ReturnType<typeof addRoomAction>) {
   try {
     yield call(api.addRoom, action.payload.roomName);
   } catch (e) {
     console.error(e);
   }
 }
-type AddEventListenerMessagesAction = {
-  type: string;
-  payload: { roomId: string };
-};
-function* addEventListenerMessages(action: AddEventListenerMessagesAction) {
+
+function* addEventListenerMessages(action: ReturnType<typeof addEventListenerMessagesAction>) {
   const channel = yield call(
     api.addEventListenerMessages,
     action.payload.roomId
@@ -58,18 +69,14 @@ function* addEventListenerMessages(action: AddEventListenerMessagesAction) {
   try {
     while (true) {
       const messages = yield take(channel);
-      yield put({ type: "SET_MESSAGES", payload: { messages: messages } });
+      yield put(setMessages(messages));
     }
   } catch (e) {
     console.error(e);
   }
 }
 
-type addMessageAction = {
-  type: string;
-  payload: { chatId: string; userName: string; message: string };
-};
-function* addMessage(action: addMessageAction) {
+function* addMessage(action: ReturnType<typeof addMessageAction>) {
   try {
     yield call(
       api.addMessage,
@@ -83,12 +90,12 @@ function* addMessage(action: addMessageAction) {
 }
 
 function* mySaga() {
-  yield takeEvery("FETCH_MESSAGES", fetchMessages);
-  yield takeEvery("FETCH_ROOMS", fetchRooms);
-  yield takeEvery("ADD_EVENT_LISTENER_ROOMS", addEventListenerRooms);
-  yield takeEvery("ADD_ROOM", addRoom);
-  yield takeEvery("ADD_EVENT_LISTENER_MESSAGES", addEventListenerMessages);
-  yield takeEvery("ADD_MESSAGE", addMessage);
+  yield takeEvery(FETCH_MESSAGES, fetchMessages);
+  yield takeEvery(FETCH_ROOMS, fetchRooms);
+  yield takeEvery(ADD_EVENT_LISTENER_ROOMS, addEventListenerRooms);
+  yield takeEvery(ADD_ROOM, addRoom);
+  yield takeEvery(ADD_EVENT_LISTENER_MESSAGES, addEventListenerMessages);
+  yield takeEvery(ADD_MESSAGE, addMessage);
 }
 
 export default mySaga;
