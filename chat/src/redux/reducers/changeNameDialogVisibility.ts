@@ -1,11 +1,9 @@
 import { SET_CHANGE_NAME_DIALOG_VISIBILITY } from "../actionTypes";
+import { setChangeNameDialogVisibility } from "../actions";
 
 const initialState = false;
 
-type Action = {
-  type: string;
-  payload: { visibility: boolean };
-};
+type Action = ReturnType<typeof setChangeNameDialogVisibility>
 
 const changeNameDialogVisibility = (state = initialState, action: Action) => {
   switch (action.type) {
