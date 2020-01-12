@@ -34,6 +34,7 @@ import {
   addEventListenerRooms,
   addEventListenerMessages
 } from "../redux/actions";
+import { RootState } from "../redux/reducers/index";
 
 const drawerWidth = 240;
 
@@ -222,15 +223,7 @@ const PersistentDrawerLeft = (props: Props) => {
   );
 };
 
-type State = {
-  createRoomDialogVisibility: boolean;
-  changeNameDialogVisibility: boolean;
-  userName: string;
-  rooms: { id: string; roomName: string }[];
-  selectedRoom: string;
-  messages: { userName: string; message: string }[];
-};
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: RootState) => {
   return {
     userName: state.userName,
     rooms: state.rooms,

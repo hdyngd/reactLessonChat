@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { connect } from "react-redux";
 import { setCreateRoomDialogVisibility, addRoom } from "../redux/actions";
+import { RootState } from "../redux/reducers/index";
 
 type Props = {
   createRoomDialogVisibility: boolean;
@@ -64,15 +65,7 @@ const CreateRoomFormDialog = (props: Props) => {
   );
 };
 
-type State = {
-  createRoomDialogVisibility: boolean;
-  changeNameDialogVisibility: boolean;
-  userName: string;
-  rooms: { id: string; roomName: string }[];
-  selectedRoom: string;
-  messages: { userName: string; message: string }[];
-};
-const mapStateProps = (state: State) => {
+const mapStateProps = (state: RootState) => {
   return { createRoomDialogVisibility: state.createRoomDialogVisibility };
 };
 

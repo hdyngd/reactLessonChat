@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { connect } from "react-redux";
 import { setChangeNameDialogVisibility, setUserName } from "../redux/actions";
+import { RootState } from "../redux/reducers/index";
 
 type Props = {
   userName: string;
@@ -72,15 +73,8 @@ const ChangeNameFormDialog = (props: Props) => {
     </div>
   );
 };
-type State = {
-  createRoomDialogVisibility: boolean;
-  changeNameDialogVisibility: boolean;
-  userName: string;
-  rooms: { id: string; roomName: string }[];
-  selectedRoom: string;
-  messages: { userName: string; message: string }[];
-};
-const mapStateToProps = (state: State) => {
+
+const mapStateToProps = (state: RootState) => {
   return {
     changeNameDialogVisibility: state.changeNameDialogVisibility,
     userName: state.userName

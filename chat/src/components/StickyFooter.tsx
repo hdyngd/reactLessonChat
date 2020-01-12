@@ -8,6 +8,7 @@ import Icon from "@material-ui/core/Icon";
 
 import { connect } from "react-redux";
 import { addMessage } from "../redux/actions";
+import { RootState } from "../redux/reducers/index";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -79,15 +80,7 @@ const StickyFooter = (props: Props) => {
   );
 };
 
-type State = {
-  createRoomDialogVisibility: boolean;
-  changeNameDialogVisibility: boolean;
-  userName: string;
-  rooms: { id: string; roomName: string }[];
-  selectedRoom: string;
-  messages: { userName: string; message: string }[];
-};
-const mapStateProps = (state: State) => {
+const mapStateProps = (state: RootState) => {
   return { chatId: state.selectedRoom, userName: state.userName };
 };
 
