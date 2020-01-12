@@ -1,4 +1,4 @@
-import { RootState } from './reducers';
+import { RootState } from "./reducers";
 
 export const getCreateRoomDialogVisibility = (store: RootState) =>
   store.createRoomDialogVisibility;
@@ -13,13 +13,15 @@ export const getRooms = (store: RootState) => {
 export const getSelectedRoom = (store: RootState) => {
   return store.selectedRoom;
 };
-export const getChatHistory = (store: RootState & {
-  chatHistory: {
-    chatId: string;
-    userName: string;
-    message: string
-  }[];
-}) => {
+export const getChatHistory = (
+  store: RootState & {
+    chatHistory: {
+      chatId: string;
+      userName: string;
+      message: string;
+    }[];
+  }
+) => {
   let history: { chatId: string; userName: string; message: string }[] = [];
   for (const index in store.chatHistory) {
     if (store.chatHistory[index].chatId === getSelectedRoom(store)) {

@@ -14,7 +14,7 @@ import {
   setRooms,
   addRoom as addRoomAction,
   addMessage as addMessageAction,
-  addEventListenerMessages as addEventListenerMessagesAction,
+  addEventListenerMessages as addEventListenerMessagesAction
 } from "./actions";
 
 function* fetchMessages(action: ReturnType<typeof fetchMessagesAction>) {
@@ -61,7 +61,9 @@ function* addRoom(action: ReturnType<typeof addRoomAction>) {
   }
 }
 
-function* addEventListenerMessages(action: ReturnType<typeof addEventListenerMessagesAction>) {
+function* addEventListenerMessages(
+  action: ReturnType<typeof addEventListenerMessagesAction>
+) {
   const channel = yield call(
     api.addEventListenerMessages,
     action.payload.roomId

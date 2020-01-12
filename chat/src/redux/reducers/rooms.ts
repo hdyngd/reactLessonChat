@@ -1,5 +1,5 @@
 import { SET_ROOMS } from "../actionTypes";
-import { setRooms } from './../actions';
+import { setRooms } from "./../actions";
 
 const initialState: { id: string; name: string }[] = [];
 

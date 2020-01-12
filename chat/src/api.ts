@@ -3,7 +3,8 @@ import db from "./firebaseInit";
 import { eventChannel } from "redux-saga";
 
 export function fetchRooms() {
-  return db.collection("rooms")
+  return db
+    .collection("rooms")
     .get()
     .then(querySnapShot => {
       let rooms: { id: string; roomName: string }[] = [];
@@ -75,7 +76,8 @@ export function addEventListenerMessages(roomId: string) {
 }
 
 export function fetchMessages(roomId: string) {
-  return db.collection("rooms")
+  return db
+    .collection("rooms")
     .doc(roomId)
     .collection("messages")
     .get()

@@ -61,12 +61,14 @@ export const fetchMessages = (roomId: string) => ({
     roomId
   }
 });
-export const setMessages = (messages: { userName: string; message: string }[]) => ({
+export const setMessages = (
+  messages: { userName: string; message: string }[]
+) => ({
   type: SET_MESSAGES,
   payload: {
     messages
   }
-})
+});
 export const fetchRooms = () => ({
   type: FETCH_ROOMS
 });
@@ -75,7 +77,7 @@ export const setRooms = (rooms: { id: string; roomName: string }[]) => ({
   payload: {
     rooms
   }
-})
+});
 export const addEventListenerRooms = () => ({
   type: ADD_EVENT_LISTENER_ROOMS
 });

@@ -3,7 +3,7 @@ import { setChangeNameDialogVisibility } from "../actions";
 
 const initialState = false;
 
-type Action = ReturnType<typeof setChangeNameDialogVisibility>
+type Action = ReturnType<typeof setChangeNameDialogVisibility>;
 
 const changeNameDialogVisibility = (state = initialState, action: Action) => {
   switch (action.type) {
